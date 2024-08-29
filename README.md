@@ -29,8 +29,7 @@ public class PostClient {
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .requestInterceptor((request, body, execution) -> {
                     logRequest(request, body);
-                    ClientHttpResponse response = execution.execute(request, body);
-                    logResponse(response);
+                    logResponse(execution.execute(request, body));
                     return response;
                 })
                 .build();
@@ -58,9 +57,8 @@ public class ClientLoggerRequestInterceptor implements ClientHttpRequestIntercep
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
         logRequest(request, body);
-        ClientHttpResponse response = execution.execute(request, body);
-        logResponse(response);
-        return response;
+        logResponse(request,body,execution);
+        return execution.execute(request,body);
     }
 
     private void logRequest(HttpRequest request, byte[] body) {
