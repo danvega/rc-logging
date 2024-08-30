@@ -19,8 +19,8 @@ public class ClientLoggerRequestInterceptor implements ClientHttpRequestIntercep
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        var response = execution.execute(request, body);
         logRequest(request, body);
+        var response = execution.execute(request, body);
         logResponse(request,response);
         return response;
     }
@@ -35,7 +35,7 @@ public class ClientLoggerRequestInterceptor implements ClientHttpRequestIntercep
 
     private void logResponse(HttpRequest request, ClientHttpResponse response) throws IOException {
         log.info("Response status: {}", response.getStatusCode());
-        logHeaders(request.getHeaders());
+        logHeaders(response.getHeaders());
         var responseBody = response.getBody().readAllBytes();
         if( responseBody.length > 0 ) {
             log.info("Response body: {}", new String(responseBody, StandardCharsets.UTF_8));
