@@ -28,8 +28,9 @@ public class PostClient {
         this.restClient = builder
                 .baseUrl("https://jsonplaceholder.typicode.com/")
                 .requestInterceptor((request, body, execution) -> {
+                    var response = execution.execute(request, body);
                     logRequest(request, body);
-                    logResponse(execution.execute(request, body));
+                    logResponse(request,response);
                     return response;
                 })
                 .build();
@@ -39,7 +40,7 @@ public class PostClient {
         // Logging implementation
     }
 
-    private void logResponse(ClientHttpResponse response) {
+    private void logResponse(HttpRequest request, ClientHttpResponse response) {
         // Logging implementation
     }
 
@@ -56,9 +57,10 @@ This approach uses a dedicated interceptor class implementing `ClientHttpRequest
 public class ClientLoggerRequestInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-        logRequest(request, body);
-        logResponse(request,body,execution);
-        return execution.execute(request,body);
+       var response = execution.execute(request, body);
+       logRequest(request, body);
+       logResponse(request,response);
+       return response;
     }
 
     private void logRequest(HttpRequest request, byte[] body) {
