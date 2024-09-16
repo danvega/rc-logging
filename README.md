@@ -113,7 +113,3 @@ You can customize the logging by modifying the `logRequest` and `logResponse` me
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
